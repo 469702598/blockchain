@@ -22,13 +22,13 @@ func Createblock(data string, prehash []byte) *Block {
 }
 
 type Blockchain struct {
-	Blocks []*Block
+	blocks []*Block
 }
 
 func (bc *Blockchain) Addblock(data string) {
-	preblock := bc.Blocks[len(bc.Blocks)-1]
+	preblock := bc.blocks[len(bc.blocks)-1]
 	new := Createblock(data, preblock.hash)
-	bc.Blocks = append(bc.Blocks, new)
+	bc.blocks = append(bc.blocks, new)
 }
 func Genesisblock() *Block {
 	return Createblock("ginesis", []byte{})
