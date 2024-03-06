@@ -4,25 +4,25 @@ import (
 	"crypto/sha256"
 	
 )
-type block struct {
+type Block struct {
 	hash    []byte
 	data    []byte
 	prehash []byte
 }
 
-func (b *block) Drivehash() {
+func (b *Block) Drivehash() {
 	info := bytes.Join([][]byte{b.data, b.prehash}, []byte{})
 	hash := sha256.Sum256(info)
 	b.hash = hash[:]
 }
-func Createblock(data string, prehash []byte) *block {
-	b := block{[]byte{}, []byte(data), prehash}
+func Createblock(data string, prehash []byte) *Block {
+	b := Block{[]byte{}, []byte(data), prehash}
 	b.Drivehash()
 	return &b
 }
 
 type Blockchain struct {
-	Blocks []*block
+	Blocks []*Block
 }
 
 func (bc *Blockchain) Addblock(data string) {
@@ -30,9 +30,9 @@ func (bc *Blockchain) Addblock(data string) {
 	new := Createblock(data, preblock.hash)
 	bc.Blocks = append(bc.Blocks, new)
 }
-func Genesisblock() *block {
+func Genesisblock() *Block {
 	return Createblock("ginesis", []byte{})
 }
 func Initchain() *Blockchain {
-	return &Blockchain{[]*block{Genesisblock()}}
+	return &Blockchain{[]*Block{Genesisblock()}}
 }
