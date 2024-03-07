@@ -53,7 +53,7 @@ func (P *Pow) Run() (int, []byte) {
 	for nonce < math.MaxInt64 {
 		data := P.Initdata(nonce)
 		hash = sha256.Sum256(data)
-		fmt.Printf("%x",hash)
+		fmt.Printf("\r%x",hash)
 		inthash.SetBytes(hash[:])
 		if inthash.Cmp(P.Target) == -1 {
 			break
