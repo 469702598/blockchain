@@ -1,24 +1,20 @@
 package blockchain
-import (
-	"bytes"
-	"crypto/sha256"
-	
-)
+
 type Block struct {
 	Hash    []byte
 	Data    []byte
 	Prehash []byte
+	Nonce	int
 }
 
-func (b *Block) Drivehash() {
-	info := bytes.Join([][]byte{b.Data, b.Prehash}, []byte{})
-	hash := sha256.Sum256(info)
-	b.Hash = hash[:]
-}
+
 func Createblock(data string, prehash []byte) *Block {
-	b := Block{[]byte{}, []byte(data), prehash}
-	b.Drivehash()
-	return &b
+	b := &Block{[]byte{}, []byte(data), prehash,0}
+	pow:=Newpow(b)
+	nonce,hash:=pow.Run()
+	b.Nonce=nonce
+	b.Hash=hash[:]
+	return b
 }
 
 type Blockchain struct {
